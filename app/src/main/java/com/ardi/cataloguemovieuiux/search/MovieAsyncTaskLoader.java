@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>> {
+public class  MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItems>> {
 
     private ArrayList<MovieItems> mData;
     private boolean mHasResult = false;

@@ -10,9 +10,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.ardi.cataloguemovieuiux.BuildConfig;
 import com.ardi.cataloguemovieuiux.R;
+import com.ardi.cataloguemovieuiux.entity.Film;
 import com.ardi.cataloguemovieuiux.search.DetailFilmActivity;
 import com.squareup.picasso.Picasso;
 
@@ -27,15 +28,15 @@ import butterknife.ButterKnife;
 
 public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHolder> {
 
-    private List<MovieItems> movieLists;
+    private List<Film> films;
     private Context context;
-    @BindString(R.string.favorite)
-    String favorite;
+    @BindString(R.string.detail)
+    String detail;
     @BindString(R.string.share)
     String share;
 
-    public ContentAdapter(List<MovieItems> movieLists, Context context) {
-        this.movieLists = movieLists;
+    public ContentAdapter(List<Film> films, Context context) {
+        this.films = films;
         this.context = context;
     }
 
@@ -48,12 +49,12 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        final MovieItems movList = movieLists.get(position);
-        holder.title.setText(movList.getTitleFilm());
-        holder.overview.setText(movList.getOverviewFilm());
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        final Film film = films.get(position);
+        holder.title.setText(film.getJudulFilm());
+        holder.overview.setText(film.getOverviewFilm());
 
-        String release_date = movList.getRilisFilm();
+        String release_date = film.getTanggalRilis();
         SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = date_format.parse(release_date);
@@ -66,13 +67,21 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
             e.printStackTrace();
         }
 
-        Picasso.get().load("http://image.tmdb.org/t/p/w342/" + movList.getImageFilm())
+        Picasso.get().load(BuildConfig.POSTER_URL + film.getPosterFilm())
                 .into(holder.poster);
 
-        holder.btnFavorite.setOnClickListener(new OnItemClickListener(position, new OnItemClickListener.OnItemClickCallback() {
+        Picasso.get().load(BuildConfig.BACKDROP_URL + film.getBackdropFilm());
+
+        holder.btnDetail.setOnClickListener(new OnItemClickListener(position, new OnItemClickListener.OnItemClickCallback() {
             @Override
             public void onItemClicked(View view, int position) {
-                Toast.makeText(context, favorite + ": " + movList.getTitleFilm(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, DetailFilmActivity.class);
+                intent.putExtra(DetailFilmActivity.EXTRA_TITLE, film.getJudulFilm());
+                intent.putExtra(DetailFilmActivity.EXTRA_OVERVIEW, film.getOverviewFilm());
+                intent.putExtra(DetailFilmActivity.EXTRA_IMAGE_MOVIE, film.getPosterFilm());
+                intent.putExtra(DetailFilmActivity.EXTRA_RELEASE_DATE, film.getTanggalRilis());
+                intent.putExtra(DetailFilmActivity.EXTRA_BACKDROP, film.getBackdropFilm());
+                context.startActivity(intent);
             }
 
         }));
@@ -80,22 +89,25 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
         holder.btnShare.setOnClickListener(new OnItemClickListener(position, new OnItemClickListener.OnItemClickCallback() {
             @Override
             public void onItemClicked(View view, int position) {
-                Toast.makeText(context, share + ": " + movList.getTitleFilm(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, film.getJudulFilm() + " \n" + film.getOverviewFilm());
+                intent.setType("text/plain");
+                context.startActivity(intent);
             }
-
         }));
 
         holder.cvFilm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MovieItems movieList = movieLists.get(position);
+                Film movieList = films.get(position);
                 Intent Intent = new Intent(context, DetailFilmActivity.class);
-                Intent.putExtra(DetailFilmActivity.EXTRA_TITLE, movieList.getTitleFilm());
+                Intent.putExtra(DetailFilmActivity.EXTRA_TITLE, movieList.getJudulFilm());
                 Intent.putExtra(DetailFilmActivity.EXTRA_OVERVIEW, movieList.getOverviewFilm());
                 Intent.putExtra(DetailFilmActivity.EXTRA_RATING, movieList.getRatingFilm());
                 Intent.putExtra(DetailFilmActivity.EXTRA_VOTE, movieList.getVoteFilm());
-                Intent.putExtra(DetailFilmActivity.EXTRA_IMAGE_MOVIE, movieList.getImageFilm());
-                Intent.putExtra(DetailFilmActivity.EXTRA_RELEASE_DATE, movieList.getRilisFilm());
+                Intent.putExtra(DetailFilmActivity.EXTRA_IMAGE_MOVIE, movieList.getPosterFilm());
+                Intent.putExtra(DetailFilmActivity.EXTRA_RELEASE_DATE, movieList.getTanggalRilis());
+                Intent.putExtra(DetailFilmActivity.EXTRA_BACKDROP, movieList.getBackdropFilm());
 
                 context.startActivity(Intent);
             }
@@ -104,10 +116,10 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return movieLists.size();
+        return films.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_item_title)
         TextView title;
         @BindView(R.id.tv_item_overview)
@@ -118,17 +130,19 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
         ImageView poster;
 
 
-        @BindView(R.id.btn_set_favorite)
-        Button btnFavorite;
+        @BindView(R.id.btn_set_detail)
+        Button btnDetail;
         @BindView(R.id.btn_set_share)
         Button btnShare;
         @BindView(R.id.cv_film)
         LinearLayout cvFilm;
+        private Context context;
 
 
-        public ViewHolder(View view){
+        public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-    }
+        }
+
     }
 }

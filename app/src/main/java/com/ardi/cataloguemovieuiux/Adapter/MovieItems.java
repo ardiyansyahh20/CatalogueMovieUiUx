@@ -9,6 +9,7 @@ public class MovieItems {
     private String rilisFilm;
     private String overviewFilm;
     private String imageFilm;
+    private String backdropFilm;
 
     public MovieItems(JSONObject object) {
         try {
@@ -18,6 +19,7 @@ public class MovieItems {
             String releaseDate = object.getString("release_date");
             String overview = object.getString("overview");
             String image = object.getString("poster_path");
+            String backdrop = object.getString("backdrop_path");
 
             this.titleFilm = title;
             this.voteFilm = vote;
@@ -25,6 +27,7 @@ public class MovieItems {
             this.rilisFilm = releaseDate;
             this.overviewFilm = overview;
             this.imageFilm = image;
+            this.backdropFilm = backdrop;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -33,6 +36,13 @@ public class MovieItems {
     public MovieItems(){
     }
 
+    public String getBackdropFilm() {
+        return backdropFilm;
+    }
+
+    public void setBackdropFilm(String backdropFilm) {
+        this.backdropFilm = backdropFilm;
+    }
     public String getTitleFilm(){
         return titleFilm;
     }
@@ -79,4 +89,5 @@ public class MovieItems {
     public void setImageFilm(String imageFilm) {
         this.imageFilm = imageFilm;
     }
+
 }

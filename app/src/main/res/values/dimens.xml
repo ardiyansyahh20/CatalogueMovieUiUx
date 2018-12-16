@@ -12,4 +12,6 @@
     <dimen name="vote">12sp</dimen>
     <dimen name="releasedate">12sp</dimen>
     <dimen name="overview">12sp</dimen>
+    <dimen name="tiny_margin">8dp</dimen>
+    <dimen name="small_margin">4dp</dimen>
 </resources>
