@@ -22,6 +22,7 @@ public class HomeTabFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    private View view;
 
     public HomeTabFragment() {
         // Required empty public constructor
@@ -32,7 +33,7 @@ public class HomeTabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home_tab, container, false);
+        view = inflater.inflate(R.layout.fragment_home_tab, container, false);
         viewPager = view.findViewById(R.id.viewpager);
         viewPager.setAdapter(new sliderAdapter(getChildFragmentManager()));
         tabLayout = view.findViewById(R.id.viewPagerTab);

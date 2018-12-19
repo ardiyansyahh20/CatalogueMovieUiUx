@@ -36,7 +36,7 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
     @BindView(R.id.edt_movie)
     EditText edtTitle;
     @Nullable
-    @BindView(R.id.image_movie)
+    @BindView(R.id.image_detail)
     ImageView imgMovie;
     @BindView(R.id.btn_find)
     FancyButton btnFindMovie;
@@ -88,7 +88,7 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
 
         Bundle bundle = new Bundle();
         bundle.putString(EXTRAS_MOVIE, judul_film);
-        getLoaderManager().initLoader(0, bundle, SearchFragment.this);
+        LoaderManager.getInstance(this).initLoader(0, bundle, SearchFragment.this);
 
         return view;
     }

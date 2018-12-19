@@ -91,6 +91,7 @@ public class MovieAdapter extends BaseAdapter {
         Picasso.get().load("http://image.tmdb.org/t/p/w185/" + mData.get(position).getImageFilm()).
                 placeholder(context.getResources().getDrawable(R.drawable.outline_photo_black_48dp)).
                 error(context.getResources().getDrawable(R.drawable.outline_photo_black_48dp)).into(holder.imgMovie);
+
         return convertView;
     }
 
@@ -105,6 +106,8 @@ public class MovieAdapter extends BaseAdapter {
         TextView tvRating;
         @BindView(R.id.tv_vote)
         TextView tvVote;
+        @BindView(R.id.image_detail)
+        ImageView imgBackdrop;
 
         public ViewHolder(View view){
             ButterKnife.bind(this, view);

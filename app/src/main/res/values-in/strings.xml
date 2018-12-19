@@ -28,4 +28,9 @@
     <string name="favorite">Favorit</string>
     <string name="share">Bagikan</string>
     <string name="image_movie">Judul Film</string>
+    <string name="dialog_exit"> Apakah anda ingin keluar?</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+    <string name="preference">Pilihan</string>
+    <string name="settings">Pengaturan</string>
 </resources>

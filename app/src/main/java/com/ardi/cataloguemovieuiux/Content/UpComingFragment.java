@@ -21,6 +21,7 @@ import com.ardi.cataloguemovieuiux.BuildConfig;
 import com.ardi.cataloguemovieuiux.R;
 import com.ardi.cataloguemovieuiux.Adapter.ContentAdapter;
 import com.ardi.cataloguemovieuiux.Adapter.MovieItems;
+import com.ardi.cataloguemovieuiux.entity.Film;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +37,7 @@ public class UpComingFragment extends Fragment {
     private RecyclerView rvCategory;
     private RecyclerView.Adapter adapter;
     private View view;
-    private List<MovieItems> movieLists;
+    private List<Film> movieLists;
 
     private static final String API_URL = BuildConfig.MOVIE_URL + "/upcoming?api_key=" + BuildConfig.MOVIE_API_KEY + "&language=en-US";
 
@@ -73,15 +74,16 @@ public class UpComingFragment extends Fragment {
 
                     JSONArray array = jsonObject.getJSONArray("results");
                     for (int i = 0; i < array.length(); i++) {
-                        MovieItems movies = new MovieItems();
+                        Film movies = new Film();
 
                         JSONObject data = array.getJSONObject(i);
-                        movies.setTitleFilm(data.getString("title"));
+                        movies.setJudulFilm(data.getString("title"));
                         movies.setOverviewFilm(data.getString("overview"));
-                        movies.setRilisFilm(data.getString("release_date"));
-                        movies.setImageFilm(data.getString("poster_path"));
+                        movies.setTanggalRilis(data.getString("release_date"));
+                        movies.setPosterFilm(data.getString("poster_path"));
                         movies.setVoteFilm(data.getString("vote_count"));
                         movies.setRatingFilm(data.getString("vote_average"));
+                        movies.setBackdropFilm(data.getString("backdrop_path"));
                         movieLists.add(movies);
                     }
 
